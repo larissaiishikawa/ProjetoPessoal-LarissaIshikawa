@@ -1,6 +1,6 @@
 // NOME: LARISSA DE FATIMA ISHIKAWA CUNHA - RA: 2564203
 
-public class TstInv {
+public class Principal {
 
     static RendaVariavel rv = new RendaVariavel();
     static RendaFixa rf = new RendaFixa();
