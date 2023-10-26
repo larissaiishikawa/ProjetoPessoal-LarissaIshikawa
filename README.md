@@ -2,7 +2,7 @@
 #### OBJECT ORIENTED PROGRAMMING CLASS
 
 
-![preview](imagens/preview1.jpg)
+![preview](assets/preview.jpg)
 
 
 Click [here](https://larissaiishikawa.github.io/)  to access my GitHub Pages Website!  
