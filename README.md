@@ -1,6 +1,8 @@
 # PERSONAL PROJECT
 #### OBJECT ORIENTED PROGRAMMING CLASS
 
+### Class diagram of the project
+![preview](assets/DIAGRAMA%20PROJETO%20FINAL.png)
 
 ![preview](assets/preview.jpg)
 
