@@ -1,9 +1,18 @@
 // NOME: LARISSA DE FATIMA ISHIKAWA CUNHA - RA: 2564203
 
+/*      
+ *  AJUSTES
+ *  *A maioria dos ajustes estão no notion, aqui são apenas anotações pontuais
+ *  - Ajustar saída de dados, para que esteja de acordo com as regras de negócios
+ *  - Implementar List/ArrayList em uma classe de Menu
+ *  - 
+ */
+
 public class Principal {
 
     static RendaVariavel rv = new RendaVariavel();
     static RendaFixa rf = new RendaFixa();
+    static Criptomoedas cm = new Criptomoedas();
     static Leitura l = new Leitura();
 
     public static void main(String arg[]) {
@@ -46,7 +55,7 @@ public class Principal {
 		
 
         do {
-            System.out.println("\nO que gostaria de cadastrar hoje? \n1 - Renda Fixa \n2 - Renda Variável \n");
+            System.out.println("\nO que gostaria de cadastrar hoje? \n1 - Renda Fixa \n2 - Renda Variável \n3 -  Criptomoedas");
             tipo = Integer.parseInt(l.entDados("\nDigite sua escolha: "));
 
             switch (tipo) {
@@ -68,13 +77,21 @@ public class Principal {
                     rv.setPvp(Double.parseDouble(l.entDados("\nDigite o P/VP atual do ativo: ")));
                     rv.setUltRend(Double.parseDouble(l.entDados("\nDigite o último rendimento do ativo (ex.: 1.10): ")));
                     break;
+                case 3:
+                    System.out.println("\nOPCAO ESCOLHIDA: 3 - CRIPTOMOEDAS\n");
+                    cm.setTipo(l.entDados("\nDigite o tipo da moeda comprada: "));
+                    cm.setTicker(l.entDados("\nDigite o ticker do ativo comprado: "));
+					cm.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao: ")));
+					cm.setRentab(Double.parseDouble(l.entDados("\nDigite a ultima rentabilidade anual: ")));
+					cm.setLiqui(l.entDados("\nDigite o tipo/data de liquidez: "));
+                    cm.setValorAtual(Double.parseDouble(l.entDados("\nDigite o valor atual do criptoativo (ex.: Bitcoin BTC: 179800.00): ")));
                 default:
                     System.out.println("\n!!!  Opcao invalida! Tente novamente.  !!!\n");
                     break;
 
             }
 
-        } while (tipo != 1 && tipo != 2);
+        } while (tipo != 1 && tipo != 2 && tipo != 3);
 
         System.out.println("\n----------------------------------------------");
         System.out.println("SEUS DADOS");
@@ -92,24 +109,34 @@ public class Principal {
 
         if (tipo == 1) {
 
-			System.out.println("\nValor: R$" + rf.getValor() + ",00");
+			System.out.println("\nValor: R$ " + rf.getValor());
             System.out.println("Tipo de Renda Fixa: " + rf.getTipo());
             System.out.println("Liquidez: " + rf.getLiqui());
 			System.out.println("Rentabilidade anual: " + rf.getRentab() + "%");
             System.out.println("Inflação acumulada no ano: " + rf.getInfla() + "%");
 			System.out.println("Rentabilidade real c/ desconto da inflacao: " + rf.calcular() + "%");
-            System.out.println("Rendimento real: R$ " + rf.calcVal() + ",00");
+            System.out.println("Rendimento real: R$ " + rf.calcVal());
 			
 
         } else if (tipo == 2) {
 
-			System.out.println("\nValor: R$" + rv.getValor()  + ",00");
+			System.out.println("\nValor: R$ " + rv.getValor() );
             System.out.println("Liquidez: " + rv.getLiqui());
             System.out.println("Ticker do Ativo Comprado: " + rv.getTicker());
             System.out.println("P/VP Atual do Ativo: " + rv.getPvp());
 			System.out.println("Rentabilidade anual (D/Y): " + rv.getRentab() + "%");
             System.out.println("Último Rendimento do Ativo: " + rv.getUltRend() + "%");
-			System.out.println("Dividendo recebido no ultimo mes: R$" + rv.calcular() + ",00");
+			System.out.println("Dividendo recebido no ultimo mes: R$ " + rv.calcular());
+
+        } else if (tipo == 3) {
+
+			System.out.println("\nValor: R$ " + cm.getValor() );
+            System.out.println("Liquidez: " + cm.getLiqui());
+            System.out.println("Tipo do Criptoativo Comprado: " + cm.getTipo());
+            System.out.println("Ticker do Ativo Comprado: " + cm.getTicker());
+			System.out.println("Rentabilidade anual (D/Y): " + cm.getRentab() + "%");
+            System.out.println("Valor atual do Criptoativo: R$ " + cm.getValorAtual());
+			System.out.println("Sua fracao/quantidade do criptoativo: " + cm.calcular());
 
         }
     }
