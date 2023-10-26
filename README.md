@@ -1,14 +1,13 @@
 # PERSONAL PROJECT
 #### OBJECT ORIENTED PROGRAMMING CLASS
+Final project of the Object-Oriented Programming course taught by Professor Dr. José Antonio Gonçalves, in the undergraduate program in Systems Analysis and Development at the Federal Technological University of Paraná, Cornélio Procópio campus.
 
 ### Class diagram of the project
 ![preview](assets/diagramaDeClasses.png)
 
+### First impression of the program
 ![preview](assets/preview.jpg)
 
-
-Click [here](https://larissaiishikawa.github.io/)  to access my GitHub Pages Website!  
-And click [here](https://github.com/larissaiishikawa/) to access my GitHub Repository ;)
 
 ## Technologies and Tools
 - Java
