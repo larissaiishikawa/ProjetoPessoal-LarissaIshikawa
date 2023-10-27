@@ -3,6 +3,7 @@
 /*      
  *  AJUSTES
  *  *A maioria dos ajustes estão no notion, aqui são apenas anotações pontuais
+ *  - Atualizar classes de acordo com o diagrama atualizado
  *  - Ajustar saída de dados, para que esteja de acordo com as regras de negócios
  *  - Implementar List/ArrayList em uma classe de Menu
  *  - 
