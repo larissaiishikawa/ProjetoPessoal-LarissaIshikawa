@@ -2,45 +2,54 @@
 
 public class RendaFixa extends Investimento implements Calc {
 
+	Leitura l = new Leitura();
+
 	// Declaração de variáveis
-	private String tipo;
-	private double inflacao;
+	private String titulo;
+	private String garantia;
+	private String risco;
 
 	// Construtor
 	public RendaFixa() {
 	
-		tipo = "";
-		inflacao = 0.0;
+		titulo = "";
+		garantia = "";
+		risco = "";
 
 	}
 
 	// Getter
-	public String getTipo() {
-		return tipo;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public double getInfla() {
-		return inflacao;
+	public String getGarantia() {
+		return garantia;
+	}
+
+	public String getRisco() {
+		return risco;
 	}
 
 	// Setter
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
-	public void setInfla(double inflacao) {
-		this.inflacao = inflacao;
+	public void setGarantia(String garantia) {
+		this.garantia = garantia;
 	}
 
-	// Implementação dos métodos de interface Calc
+	public void getRisco(String risco) {
+		this.risco = risco;
+	}
+
+	// Retornará o valor da Rentabilidade mensal em relação ao Valor e Rentabilidade cadastrados.
 	public double calcular() {
-		double rentab = getRentab();
-		double real = rentab - inflacao;
-		return real;
-	}
-
-	public double calcVal() {
-		return getValor() * calcular();
+		double valor = getValor();
+		double mensal = getRentAnual() / 12;
+		double rent = Math.pow(valor * (1 + mensal), 12);
+		return rent;
 	}
 
 

@@ -3,20 +3,20 @@
 public class Criptomoedas extends Investimento implements Calc {
 
     // Declaração de variáveis
-    private String tipo;
+    private String nomeC;
     private String ticker;
     private double valorAtual;
 
     // Construtor
     public Criptomoedas() {
-        tipo = "";
+        nomeC = "";
         ticker = "";
         valorAtual = 0.0;
     }
 
     // Getter
-    public String getTipo() {
-        return tipo;
+    public String getNomeC() {
+        return nomeC;
     }
 
     public String getTicker() {
@@ -28,8 +28,8 @@ public class Criptomoedas extends Investimento implements Calc {
     }
 
     // Setter
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNomeC(String nomeC) {
+        this.nomeC = nomeC;
     }
 
     public void setTicker(String ticker) {

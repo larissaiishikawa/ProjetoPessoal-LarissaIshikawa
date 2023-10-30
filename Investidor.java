@@ -2,9 +2,12 @@
 
 public class Investidor {
 
+	
+
 	// Declaração de variáveis
 	private String cpf;
 	private String nome;
+	private String email;
 	private String dataNasc;
 	private int patrimonio;
 	private String perfilInvestidor;
@@ -14,6 +17,7 @@ public class Investidor {
 	
 		cpf = "";
 		nome = "";
+		email = "";
 		dataNasc = "";
 		patrimonio = 0;
 		perfilInvestidor = "";
@@ -27,6 +31,10 @@ public class Investidor {
 
 	public String getNome() {
 		return nome;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public String getDataNasc() {
@@ -48,6 +56,10 @@ public class Investidor {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setDataNasc(String dataNasc) {
