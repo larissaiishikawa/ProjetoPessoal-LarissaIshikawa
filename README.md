@@ -25,12 +25,10 @@ Final project of the Object-Oriented Programming course taught by Professor Dr. 
 
 -----------------------------------------
 
-### First impression of the program
-![preview](assets/preview.jpg)
-
 ## Technologies and Tools
 - Java
 - Canva
+- CMD
 
 ### Do you have any feedbacks?
 Please contact me! :D
