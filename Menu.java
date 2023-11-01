@@ -2,29 +2,32 @@
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Menu {
 
     private Leitura l =  new Leitura();
     private Investidor i = new Investidor();
+    private RendaFixa rf = new RendaFixa();
+    //private RendaVariavel rv = new RendaVariavel();
+    //private Criptomoedas cm = new Criptomoedas();
+    private final ControleRendaFixa controleRF = new ControleRendaFixa();
+    //private final ControleRendaVariavel controleRV = new ControleRendaVariavel();
+    //private final ControleCriptomoedas controleCM = new ControleCriptomoedas();
     private LocalDateTime agora = LocalDateTime.now();
-    private List<Investimento> invest = new ArrayList<>();
 
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
     String dataHoraFormatada = agora.format(formatador);
 
     private int opc;
     private boolean sair;
-    private int qtd;
+    // private int qtd;
 
     public Menu() {
 
         opc = 0;
         this.i = new Investidor();
         sair = false;
-        qtd = 0;
+        // qtd = 0;
 
     }
     
@@ -52,8 +55,25 @@ public class Menu {
                     i.setCpf(l.entDados("\nDigite seu CPF (ex.: 000.000.000-00): "));
                     i.setEmail(l.entDados("\nDigite seu e-mail (ex.: exemplo@gmail.com): "));
                     i.setDataNasc(l.entDados("\nDigite sua data de nascimento (ex.: DD/MM/AAAA): "));
-                    System.out.println("\nQual é o seu perfil de investidor?");
-                    i.setPerfilInvest(l.entDados("Conservador  |  Moderado  |  Arrojado"));
+                    do {
+                        System.out.println("\nQual é o seu perfil de investidor?");
+                        i.setCodPerfilInvest(Integer.parseInt(l.entDados("1 - Conservador | 2 - Moderado | 3 - Arrojado")));
+                        switch (i.getCodPerfilInvest()) {
+                            case 1:
+                                System.out.println("\nOPCAO ESCOLHIDA: 1 - CONSERVADOR");
+                                break;
+                            case 2:
+                                System.out.println("\nOPCAO ESCOLHIDA: 2 - MODERADO");
+                                break;
+                            case 3:
+                                System.out.println("\nOPCAO ESCOLHIDA: 3 - ARROJADO");
+                                break;
+                            default:
+                            System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
+                                break;
+                        }
+                    } while (i.getCodPerfilInvest() != 1 && i.getCodPerfilInvest() != 2 && i.getCodPerfilInvest() != 3); 
+                    
                     i.setPatri(Integer.parseInt(l.entDados("\nDigite seu patrimonio (ex.: 1500000): ")));
                     
                     break;
@@ -75,7 +95,7 @@ public class Menu {
         System.out.println("\nData e hora atual: " + dataHoraFormatada);
         System.out.println("\nHOME");
         do {
-            opc = Integer.parseInt(l.entDados("\n1 - Investimentos \n2 - Meus dados \n3 - Sair"));
+            opc = Integer.parseInt(l.entDados("1 - Investimentos \n2 - Meus dados \n3 - Sair"));
             switch (opc) {
                 case 1:
                     System.out.println("\n---------------------------------------------\n");
@@ -110,7 +130,7 @@ public class Menu {
         System.out.println("CPF...............:    " + i.getCpf());
         System.out.println("E-mail............:    " + i.getEmail());
         System.out.println("Data de nascimento:    " + i.getDataNasc());
-        System.out.println("Perfil investidor.:    " + i.getPerfilInvest());
+        System.out.println("Perfil investidor.:    " + i.getCodPerfilInvest() + " - " + i.getPerfil());
         System.out.println("Patrimonio........:    R$ " + i.getPatri());
 
         do {
@@ -138,7 +158,7 @@ public class Menu {
 
     public void alterarDados() {
         do {
-            System.out.println("\n1 - Nome \n2 - E-mail \n3 - Perfil de investidor \n4 - Patrimonio");
+            System.out.println("\n1 - Nome \n2 - E-mail \n3 - Perfil de investidor \n4 - Patrimonio \n5 - Data de nascimento");
             opc = Integer.parseInt(l.entDados("\nO que voce gostaria de alterar?"));
             switch (opc) {
                 case 1:
@@ -152,7 +172,24 @@ public class Menu {
                     break;
 
                 case 3:
-                    i.setPerfilInvest(l.entDados("\nDigite o novo perfil: "));
+                    do {
+                        System.out.println("\nDigite o novo perfil de investidor:");
+                        i.setCodPerfilInvest(Integer.parseInt(l.entDados("1 - Conservador | 2 - Moderado | 3 - Arrojado")));
+                        switch (i.getCodPerfilInvest()) {
+                            case 1:
+                                System.out.println("\nOPCAO ESCOLHIDA: 1 - CONSERVADOR");
+                                break;
+                            case 2:
+                                System.out.println("\nOPCAO ESCOLHIDA: 2 - MODERADO");
+                                break;
+                            case 3:
+                                System.out.println("\nOPCAO ESCOLHIDA: 3 - ARROJADO");
+                                break;
+                            default:
+                            System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
+                                break;
+                        }
+                    } while (i.getCodPerfilInvest() != 1 && i.getCodPerfilInvest() != 2 && i.getCodPerfilInvest() != 3);
                     System.out.println("\n---------------------------------------------\n");
                     break;
 
@@ -160,7 +197,12 @@ public class Menu {
                     i.setPatri(Integer.parseInt(l.entDados("\nDigite o novo patrimonio: ")));
                     System.out.println("\n---------------------------------------------\n");
                     break;
-            
+                    
+                case 5:
+                    i.setDataNasc(l.entDados("\nDigite a nova data de nascimento: "));
+                    System.out.println("\n---------------------------------------------\n");
+                    break;
+
                 default:
                     System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
                     break;
@@ -170,117 +212,122 @@ public class Menu {
     }
 
     public void menuInvestimentos() {
-        qtd = invest.size();
     
         System.out.println("\nINVESTIMENTOS");
-                
         do {
-            System.out.println("Você tem " + qtd + " investimento(s) cadastrado(s).\n");
+            System.out.println("Qual tipo de investimento voce gostaria de operar?");
+            System.out.println("\n1 - Renda Fixa");
+            System.out.println("2 - Renda Variavel");
+            System.out.println("3 - Criptomoedas");
+            opc = Integer.parseInt(l.entDados("4 - Inicio"));
+
+            switch (opc) {
+                case 1:
+                    menuRF();
+                    break;
+                case 2:
+                    // menuRV();
+                    break;
+                case 3:
+                    // menuCM();
+                    break;
+                case 4:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 2 - INICIO");
+                    menuHome();
+                    break;
+                default:
+                    System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
+                    break;
+            }
+        } while (!sair && opc != 1 && opc != 2 && opc != 3);
+        
+    }
+
+    public void menuRF() {
+        System.out.println("\n---------------------------------------------\n");
+        System.out.println("OPCAO ESCOLHIDA: 1 - RENDA FIXA\n");
+        // qtd = ControleRendaFixa rendaFixaList.size(); - Descobrir porquê não funciona
+        
+        do {
+            // System.out.println("Você tem " + qtd + " investimento(s) cadastrado(s).\n");
             System.out.println("1 - Cadastrar novo investimento");
             System.out.println("2 - Listar investimentos");
             System.out.println("3 - Consultar investimento");
             System.out.println("4 - Alterar investimento");
             System.out.println("5 - Remover investimento");
-            opc = Integer.parseInt(l.entDados("6 - Início"));
+            opc = Integer.parseInt(l.entDados("6 - Retornar"));
 
             switch (opc) {
                 case 1:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 1 - CADASTRAR NOVO INVESTIMENTO");
-                    System.out.println("\nem manutencao!\nestamos te redirecionando a home...");
-                    menuHome();
-                    //investCadastrar();
+                    System.out.println("OPCAO ESCOLHIDA: 1 - CADASTRAR NOVO INVESTIMENTO\n");
+                    do {
+                        controleRF.adicionarRendaFixa(rf);
+                        System.out.println("\nRenda Fixa inserida com sucesso!");
+                        } while (l.entDados("Gostaria de inserir uma nova Renda Fixa? (S/N)").equalsIgnoreCase("s"));
+                        menuRF();                 
                     break;
                 case 2:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 2 - LISTAR INVESTIMENTOS");
-                    System.out.println("\nem manutencao!\nestamos te redirecionando a home...");
-                    menuHome();
-                    // investListar();
-                    break;
+                    System.out.println("OPCAO ESCOLHIDA: 2 - LISTAR INVESTIMENTOS\n");
+                    controleRF.listarRendaFixa();
+                    menuRF();
+                    break;  
                 case 3:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 3 - CONSULTAR INVESTIMENTO");
-                    System.out.println("\nem manutencao!\nestamos te redirecionando a home...");
-                    menuHome();
-                    // investConsultar();
+                    System.out.println("OPCAO ESCOLHIDA: 3 - CONSULTAR INVESTIMENTO\n");
+                    controleRF.consultarRendaFixa(Integer.parseInt(l.entDados("Digite o ID do ativo: "))); 
+                    menuRF();                   
                     break;
                 case 4:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 4 - ALTERAR INVESTIMENTO");
-                    System.out.println("\nem manutencao!\nestamos te redirecionando a home...");
-                    menuHome();
-                    // investAlterar();
+                    System.out.println("OPCAO ESCOLHIDA: 4 - ALTERAR INVESTIMENTO\n");
+                    controleRF.listarRendaFixa();
+                    controleRF.editarRendaFixa(
+                        Integer.parseInt(l.entDados("\nDigite o ID da Renda Fixa a ser alterada: ")),
+                        Double.parseDouble(l.entDados("\nDigite o novo valor (ex.: R$ 1.100,50, digite 1100.5): "))
+                        );
+                    menuRF();    
                     break;
                 case 5:
                     System.out.println("\n---------------------------------------------\n");
                     System.out.println("OPCAO ESCOLHIDA: 5 - REMOVER INVESTIMENTO");
-                    System.out.println("\nem manutencao!\nestamos te redirecionando a home...");
-                    menuHome();
-                    // investRemover();
+                    controleRF.listarRendaFixa();
+					controleRF.excluirRendaFixa(Integer.parseInt(l.entDados("\nDigite o ID do ativo a ser removido: ")));
+                    menuRF();
                     break;
                 case 6:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 6 - INICIO");
-                    menuHome();
+                    System.out.println("OPCAO ESCOLHIDA: 6 - RETORNAR");
+                    menuInvestimentos();
                     break;
                 default:
                     System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
                     break;
             }
+            
         } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 6);
-
     }
 
-    // /* 
 
-    public void investCadastrar() {
-        do {
-            Investimento in = new Investimento();
-            System.out.println("1 - Renda fixa \n2 - Renda variável \n3 - Criptomoedas");
-            opc = Integer.parseInt(l.entDados("\nEscolha o tipo de ativo que deseja cadastrar: "));
-            switch (opc) {
-                case 1:
-                    System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 1 - RENDA FIXA");
-                    in.setTipo(opc);
-                    break;
-                case 2:
-                    System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 2 - RENDA VARIAVEL");
-                    in.setTipo(opc);
-                    break;
-                case 3:
-                    System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 3 - CRIPTOMOEDAS");
-                    in.setTipo(opc);
-                    break;
-                default:
-                    System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
-                    break;
-            }
-            in.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao (ex.: R$ 1.100,50, digite 1100.5): ")));
-            in.setLiqui(l.entDados("\nDigite a liquidez do seu ativo: "));
-            in.setRentAnual(Integer.parseInt(l.entDados("\nDigite a rentabilidade anual (ex.: se a rentabilidade for 12.5%, digite apenas 12): ")));
-            
-            switch (opc) {
-                case 1:
-                    
-                    break;
-                case 2:
-                    
-                    break;
-                case 3:
 
-                    break;
-                default:
-                    break;
-            }
-        } while (!sair && opc != 1 && opc != 2 && opc != 3);
-        // invest.add(in);
+    /*
+    public void controleRF () {
+        List<RendaFixa> list = new ArrayList<>();
+        RendaFixa rf = new RendaFixa();
+        rf.setTipo(opc);
+        rf.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao (ex.: R$ 1.100,50, digite 1100.5): ")));
+        rf.setLiqui(l.entDados("\nDigite a liquidez do seu ativo: "));
+        rf.setRentAnual(Integer.parseInt(l.entDados("\nDigite a rentabilidade anual (ex.: se a rentabilidade for 12.5%, digite apenas 12): ")));
+        rf.setTitulo(l.entDados("\nDigite o título da sua aplicacao (CDB, Tesouro direto, LCI etc.): "));
+        rf.setGarantia(l.entDados("\nDigite a garantia da sua aplicacao (FGC, Tesouro Nacional, sem garantia): "));
+        rf.setRisco(l.entDados("\nDigite o título da sua aplicacao (CDB, Tesouro direto, LCI etc.): "));
+        list.add(rf);
+
     }
     
-    // */
+    */
 
 }
 

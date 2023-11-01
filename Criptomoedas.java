@@ -6,12 +6,16 @@ public class Criptomoedas extends Investimento implements Calc {
     private String nomeC;
     private String ticker;
     private double valorAtual;
+    private int id;
 
-    // Construtor
+
+    // Polimorfismo por sobrecarga - Construtor
     public Criptomoedas() {
+        super();
         nomeC = "";
         ticker = "";
         valorAtual = 0.0;
+        id = 0;
     }
 
     // Getter
@@ -27,6 +31,10 @@ public class Criptomoedas extends Investimento implements Calc {
         return valorAtual;
     }
 
+    public int getId() {
+		return id;
+	}
+
     // Setter
     public void setNomeC(String nomeC) {
         this.nomeC = nomeC;
@@ -40,7 +48,11 @@ public class Criptomoedas extends Investimento implements Calc {
         this.valorAtual = valorAtual;
     }
 
-    // Implementação do método de interface Calc
+    public void setId(int id) {
+		this.id = id;
+	}
+
+    // Polimorfismo por sobrescrita - Implementação do método de interface Calc
     public double calcular() {
         double valor = getValor();
         double fracao = valor / valorAtual;

@@ -1,12 +1,11 @@
 // NOME: LARISSA DE FATIMA ISHIKAWA CUNHA - RA: 2564203
 
-public class Investimento {
+public abstract class Investimento {
 
 	// Declaração de variáveis
 	private double valor;
 	private int rentAnual;
 	private String liquidez;
-	private int tipo;
 
 	// Instanciações
 	Investidor investidor = new Investidor();
@@ -17,7 +16,6 @@ public class Investimento {
 		valor = 0.0;
 		rentAnual = 0;
 		liquidez = "";
-		tipo = 0;
 
 	}
 
@@ -32,10 +30,6 @@ public class Investimento {
 
 	public String getLiqui() {
 		return liquidez;
-	}
-
-	public int getTipo() {
-		return tipo;
 	}
 
 	public Investidor getInvest() {
@@ -53,10 +47,6 @@ public class Investimento {
 
 	public void setLiqui(String liquidez) {
 		this.liquidez = liquidez;
-	}
-
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
 	}
 
 

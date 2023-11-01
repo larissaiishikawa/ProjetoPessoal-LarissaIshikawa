@@ -4,17 +4,20 @@ public class RendaFixa extends Investimento implements Calc {
 
 	Leitura l = new Leitura();
 
-	// Declaração de variáveis
+	// Polimorfismo por sobrecarga -Declaração de variáveis
 	private String titulo;
 	private String garantia;
 	private String risco;
+	private int id;
 
 	// Construtor
 	public RendaFixa() {
 	
+		super();
 		titulo = "";
 		garantia = "";
 		risco = "";
+		id = 0;
 
 	}
 
@@ -31,6 +34,10 @@ public class RendaFixa extends Investimento implements Calc {
 		return risco;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	// Setter
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -40,11 +47,15 @@ public class RendaFixa extends Investimento implements Calc {
 		this.garantia = garantia;
 	}
 
-	public void getRisco(String risco) {
+	public void setRisco(String risco) {
 		this.risco = risco;
 	}
 
-	// Retornará o valor da Rentabilidade mensal em relação ao Valor e Rentabilidade cadastrados.
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	// Polimorfismo por sobrescrita - Retornará o valor da Rentabilidade real em relação ao Valor e Rentabilidade cadastrados.
 	public double calcular() {
 		double valor = getValor();
 		double mensal = getRentAnual() / 12;

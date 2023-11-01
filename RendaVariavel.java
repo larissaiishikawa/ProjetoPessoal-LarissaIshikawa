@@ -7,14 +7,17 @@ public class RendaVariavel extends Investimento implements Calc {
 	private double pvp;
 	private double ultRend;
 	private int qtdCotas;
+	private int id;
 
-	// Construtor
+	// Polimorfismo por sobrecarga - Construtor
 	public RendaVariavel() {
 	
+		super();
 		codigo = "";
 		pvp = 0.0;
 		ultRend = 0.0;
 		qtdCotas = 0;
+		id = 0;
 
 	}
 
@@ -35,6 +38,10 @@ public class RendaVariavel extends Investimento implements Calc {
 		return qtdCotas;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	// Setter
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
@@ -52,7 +59,11 @@ public class RendaVariavel extends Investimento implements Calc {
 		this.qtdCotas = qtdCotas;
 	}
 
-	// Calcula o valor unitario de cotas adquiridas
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	// Polimorfismo por sobrescrita - Calcula o valor unitario de cotas adquiridas
 	public double calcular() {
 		double valor = getValor();
 		double unit = valor / qtdCotas;

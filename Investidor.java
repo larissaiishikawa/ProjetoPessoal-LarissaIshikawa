@@ -10,7 +10,8 @@ public class Investidor {
 	private String email;
 	private String dataNasc;
 	private int patrimonio;
-	private String perfilInvestidor;
+	private int codPerfilInvest;
+	private String perfil;
 
 	// Construtores
 	public Investidor() {
@@ -20,7 +21,8 @@ public class Investidor {
 		email = "";
 		dataNasc = "";
 		patrimonio = 0;
-		perfilInvestidor = "";
+		codPerfilInvest = 0;
+		perfil = "";
 
 	}
 
@@ -45,8 +47,27 @@ public class Investidor {
 		return patrimonio;
 	}
 
-	public String getPerfilInvest() {
-		return perfilInvestidor;
+	public int getCodPerfilInvest() {
+		return codPerfilInvest;
+	}
+
+	public String getPerfil() {
+		switch (getCodPerfilInvest()) {
+			case 0:
+				setPerfil("INDEFINIDO. Por favor, preencha.");
+				return perfil;
+			case 1:
+				setPerfil("CONSERVADOR");
+				return perfil;
+			case 2:
+				setPerfil("MODERADO");
+				return perfil;
+			case 3:
+				setPerfil("ARROJADO");
+				return perfil;
+			default:
+				return perfil;
+		}
 	}
 
 	// Setters
@@ -70,9 +91,12 @@ public class Investidor {
 		this.patrimonio = patrimonio;
 	}
 
-	public void setPerfilInvest(String perfilInvestidor) {
-		this.perfilInvestidor = perfilInvestidor;
+	public void setCodPerfilInvest(int codPerfilInvest) {
+		this.codPerfilInvest = codPerfilInvest;
 	}
 
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
+	}
 
 }
