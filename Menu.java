@@ -7,10 +7,10 @@ public class Menu {
 
     private Leitura l =  new Leitura();
     private Investidor i = new Investidor();
-    private RendaFixa rf = new RendaFixa();
+    //private RendaFixa rf = new RendaFixa();
     //private RendaVariavel rv = new RendaVariavel();
     //private Criptomoedas cm = new Criptomoedas();
-    private final ControleRendaFixa controleRF = new ControleRendaFixa();
+    private ControleRendaFixa controleRF = new ControleRendaFixa();
     //private final ControleRendaVariavel controleRV = new ControleRendaVariavel();
     //private final ControleCriptomoedas controleCM = new ControleCriptomoedas();
     private LocalDateTime agora = LocalDateTime.now();
@@ -95,7 +95,7 @@ public class Menu {
         System.out.println("\nData e hora atual: " + dataHoraFormatada);
         System.out.println("\nHOME");
         do {
-            opc = Integer.parseInt(l.entDados("1 - Investimentos \n2 - Meus dados \n3 - Sair"));
+            opc = Integer.parseInt(l.entDados("1 - Investimentos \n2 - Meus dados \n0 - Sair"));
             switch (opc) {
                 case 1:
                     System.out.println("\n---------------------------------------------\n");
@@ -109,9 +109,9 @@ public class Menu {
                     menuDados();
                     break;
 
-                case 3:
+                case 0:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 3 - SAIR");
+                    System.out.println("OPCAO ESCOLHIDA: 0 - SAIR");
                     System.out.println("\nAte logo, " + i.getNome() + "! \nEncerrando o programa...\n");
                     sair = true;
                     break;
@@ -134,7 +134,7 @@ public class Menu {
         System.out.println("Patrimonio........:    R$ " + i.getPatri());
 
         do {
-            opc = Integer.parseInt(l.entDados("\n1 - Alterar dados \n2 - Inicio"));
+            opc = Integer.parseInt(l.entDados("\n1 - Alterar dados \n0 - Inicio"));
             switch (opc) {
                 case 1:
                     System.out.println("\n---------------------------------------------\n");
@@ -142,16 +142,16 @@ public class Menu {
                     alterarDados();
                     menuDados();
                     break;
-                case 2:
+                case 0:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 2 - INICIO");
+                    System.out.println("OPCAO ESCOLHIDA: 0 - INICIO");
                     menuHome();
                     break;
                 default:
                     System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
                     break;
             }
-        } while (!sair && opc != 1 && opc != 2);
+        } while (!sair && opc != 1 && opc != 0);
 
         
     }
@@ -207,7 +207,7 @@ public class Menu {
                     System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
                     break;
             }
-        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4);
+        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5);
         
     }
 
@@ -219,7 +219,7 @@ public class Menu {
             System.out.println("\n1 - Renda Fixa");
             System.out.println("2 - Renda Variavel");
             System.out.println("3 - Criptomoedas");
-            opc = Integer.parseInt(l.entDados("4 - Inicio"));
+            opc = Integer.parseInt(l.entDados("0 - Inicio"));
 
             switch (opc) {
                 case 1:
@@ -231,16 +231,16 @@ public class Menu {
                 case 3:
                     // menuCM();
                     break;
-                case 4:
+                case 0:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 2 - INICIO");
+                    System.out.println("OPCAO ESCOLHIDA: 0 - INICIO");
                     menuHome();
                     break;
                 default:
                     System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
                     break;
             }
-        } while (!sair && opc != 1 && opc != 2 && opc != 3);
+        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 0);
         
     }
 
@@ -254,16 +254,23 @@ public class Menu {
             System.out.println("1 - Cadastrar novo investimento");
             System.out.println("2 - Listar investimentos");
             System.out.println("3 - Consultar investimento");
-            System.out.println("4 - Alterar investimento");
+            System.out.println("4 - Editar investimento");
             System.out.println("5 - Remover investimento");
-            opc = Integer.parseInt(l.entDados("6 - Retornar"));
+            opc = Integer.parseInt(l.entDados("0 - Retornar"));
 
             switch (opc) {
                 case 1:
                     System.out.println("\n---------------------------------------------\n");
                     System.out.println("OPCAO ESCOLHIDA: 1 - CADASTRAR NOVO INVESTIMENTO\n");
                     do {
-                        controleRF.adicionarRendaFixa(rf);
+                        RendaFixa rf1 = new RendaFixa();
+                        rf1.setTitulo(l.entDados("Digite o titulo da sua aplicacao (ex.: Poupanca, CDB, Tesouro direto, LCI etc.): "));
+                        rf1.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao (ex.: R$ 1.100,50, digite 1100.5): ")));
+                        rf1.setRentAnual(Integer.parseInt(l.entDados("\nDigite a rentabilidade anual (ex.: se a rentabilidade for 12.5%, digite apenas 12): ")));
+                        rf1.setLiqui(l.entDados("\nDigite a liquidez do seu ativo (ex.: Diaria, 3 meses, 6 meses, 1 ano): "));
+                        rf1.setGarantia(l.entDados("\nDigite a garantia do seu ativo (ex.: FGC, Tesouro Nacional, sem garantia): "));
+                        rf1.setRisco(l.entDados("\nDigite o risco da sua aplicação (ex.: Baixo, Medio, Alto): "));
+                        controleRF.adicionarRendaFixa(rf1);
                         System.out.println("\nRenda Fixa inserida com sucesso!");
                         } while (l.entDados("Gostaria de inserir uma nova Renda Fixa? (S/N)").equalsIgnoreCase("s"));
                         menuRF();                 
@@ -282,7 +289,7 @@ public class Menu {
                     break;
                 case 4:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 4 - ALTERAR INVESTIMENTO\n");
+                    System.out.println("OPCAO ESCOLHIDA: 4 - EDITAR INVESTIMENTO\n");
                     controleRF.listarRendaFixa();
                     controleRF.editarRendaFixa(
                         Integer.parseInt(l.entDados("\nDigite o ID da Renda Fixa a ser alterada: ")),
@@ -297,9 +304,9 @@ public class Menu {
 					controleRF.excluirRendaFixa(Integer.parseInt(l.entDados("\nDigite o ID do ativo a ser removido: ")));
                     menuRF();
                     break;
-                case 6:
+                case 0:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 6 - RETORNAR");
+                    System.out.println("OPCAO ESCOLHIDA: 0 - RETORNAR");
                     menuInvestimentos();
                     break;
                 default:
@@ -307,7 +314,7 @@ public class Menu {
                     break;
             }
             
-        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 6);
+        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 0);
     }
 
 
