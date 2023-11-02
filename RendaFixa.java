@@ -57,10 +57,9 @@ public class RendaFixa extends Investimento implements Calc {
 	// Polimorfismo por sobrescrita - Retornará o valor da Rentabilidade real em relação ao Valor e Rentabilidade cadastrados.
 	public double calcular() {
 		double valor = getValor();
-		double mensal = getRentAnual() / 12;
-		double rent = Math.pow(valor * (1 + mensal), 12);
+		int anual = getRentAnual();
+		double rent = (anual * 0.01 + 1) * valor;
 		return rent;
 	}
-
 
 }
