@@ -4,16 +4,15 @@ public class RendaFixa extends Investimento implements Calc {
 
 	Leitura l = new Leitura();
 
-	// Polimorfismo por sobrecarga -Declaração de variáveis
+	// Declaração de variáveis
 	private String titulo;
 	private String garantia;
 	private String risco;
 	private int id;
 
-	// Construtor
+	// Polimorfismo por sobrecarga - Construtor
 	public RendaFixa() {
 	
-		super();
 		titulo = "";
 		garantia = "";
 		risco = "";

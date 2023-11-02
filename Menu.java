@@ -1,18 +1,20 @@
-// NOME: LARISSA DE FATIMA ISHIKAWA CUNHA - RA: 2564203
+// UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ - CAMPUS CORNÉLIO PROCÓPIO
+// NOME: LARISSA DE FATIMA ISHIKAWA CUNHA
+// RA: 2564203
+// 01/11/2023
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Menu {
 
     private Leitura l =  new Leitura();
     private Investidor i = new Investidor();
-    //private RendaFixa rf = new RendaFixa();
-    //private RendaVariavel rv = new RendaVariavel();
-    //private Criptomoedas cm = new Criptomoedas();
     private ControleRendaFixa controleRF = new ControleRendaFixa();
-    //private final ControleRendaVariavel controleRV = new ControleRendaVariavel();
-    //private final ControleCriptomoedas controleCM = new ControleCriptomoedas();
+    private ControleRendaVariavel controleRV = new ControleRendaVariavel();
+    private ControleCriptomoedas controleCM = new ControleCriptomoedas();
     private LocalDateTime agora = LocalDateTime.now();
 
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -20,14 +22,14 @@ public class Menu {
 
     private int opc;
     private boolean sair;
-    // private int qtd;
+    private boolean valida;
 
     public Menu() {
 
         opc = 0;
         this.i = new Investidor();
         sair = false;
-        // qtd = 0;
+        valida = true;
 
     }
     
@@ -46,6 +48,33 @@ public class Menu {
                     System.out.println("OPCAO ESCOLHIDA: 1 - ENTRAR");
                     i.setNome(l.entDados("\nDigite seu nome: "));
                     i.setCpf(l.entDados("\nDigite seu CPF (ex.: 000.000.000-00): "));
+
+                    // EXCEPTION MAIORIDADE - COMO PEDIR A DATA NOVAMENTE
+                    while (valida) {
+                        try {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            i.setDataNasc(l.entDados("\nDigite sua data de nascimento (ex.: dd/MM/yyyy): "));
+                            String dataNascimentoStr = i.getDataNasc();
+                            try {
+                                LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
+                                
+                                if (!isMaiorDeIdade(dataNascimento)) {
+                                    System.out.println(" ");
+                                    throw new MaioridadeException();
+                                } else {
+                                    System.out.println("\nVocê é maior de idade e pode prosseguir.");
+                                    valida = false;
+                                    menuHome();
+                                }
+                            } catch (DateTimeParseException e) {
+                                System.out.println("\nData de nascimento inválida. Certifique-se de inserir a data no formato dd/MM/yyyy.");
+                            }
+                        } catch (MaioridadeException e) {
+                            System.out.println(e.getMessage());
+                            System.out.println("\nAte logo, " + i.getNome() + "! \nEncerrando o programa...\n");
+                            break;
+                        }
+                    }
                     break;
 
                 case 2:
@@ -54,7 +83,6 @@ public class Menu {
                     i.setNome(l.entDados("\nDigite seu nome: "));
                     i.setCpf(l.entDados("\nDigite seu CPF (ex.: 000.000.000-00): "));
                     i.setEmail(l.entDados("\nDigite seu e-mail (ex.: exemplo@gmail.com): "));
-                    i.setDataNasc(l.entDados("\nDigite sua data de nascimento (ex.: DD/MM/AAAA): "));
                     do {
                         System.out.println("\nQual é o seu perfil de investidor?");
                         i.setCodPerfilInvest(Integer.parseInt(l.entDados("1 - Conservador | 2 - Moderado | 3 - Arrojado")));
@@ -73,9 +101,34 @@ public class Menu {
                                 break;
                         }
                     } while (i.getCodPerfilInvest() != 1 && i.getCodPerfilInvest() != 2 && i.getCodPerfilInvest() != 3); 
-                    
                     i.setPatri(Integer.parseInt(l.entDados("\nDigite seu patrimonio (ex.: 1500000): ")));
-                    
+                    // EXCEPTION MAIORIDADE - PERGUNTAR COMO COLOCAR O DO WHILE NESSE CASO, PRA PEDIR A DATA NOVAMENTE
+                    while (valida) {
+                        try {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            i.setDataNasc(l.entDados("\nDigite sua data de nascimento (ex.: dd/MM/yyyy): "));
+                            String dataNascimentoStr = i.getDataNasc();
+                            try {
+                                LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
+                                
+                                if (!isMaiorDeIdade(dataNascimento)) {
+                                    System.out.println(" ");
+                                    throw new MaioridadeException();
+                                } else {
+                                    System.out.println("\nVocê é maior de idade e pode prosseguir.");
+                                    valida = false;
+                                    menuHome();
+                                }
+                            } catch (DateTimeParseException e) {
+                                System.out.println("\nData de nascimento inválida. Certifique-se de inserir a data no formato dd/MM/yyyy.");
+                            }
+                        } catch (MaioridadeException e) {
+                            System.out.println(e.getMessage());
+                            System.out.println("\nAte logo, " + i.getNome() + "! \nEncerrando o programa...\n");
+                            sair = true;
+                            break;
+                        }
+                    }
                     break;
             
                 default:
@@ -83,8 +136,7 @@ public class Menu {
                     break;
             }
 
-
-        } while (opc != 1 && opc != 2);
+        } while (!sair && opc != 1 && opc != 2);
 
     }
 
@@ -131,7 +183,7 @@ public class Menu {
         System.out.println("E-mail............:    " + i.getEmail());
         System.out.println("Data de nascimento:    " + i.getDataNasc());
         System.out.println("Perfil investidor.:    " + i.getCodPerfilInvest() + " - " + i.getPerfil());
-        System.out.println("Patrimonio........:    R$ " + i.getPatri());
+        System.out.println("Patrimonio........:    R$ " + i.getPatri() + ",00");
 
         do {
             opc = Integer.parseInt(l.entDados("\n1 - Alterar dados \n0 - Inicio"));
@@ -158,7 +210,7 @@ public class Menu {
 
     public void alterarDados() {
         do {
-            System.out.println("\n1 - Nome \n2 - E-mail \n3 - Perfil de investidor \n4 - Patrimonio \n5 - Data de nascimento");
+            System.out.println("\n1 - Nome \n2 - E-mail \n3 - Perfil de investidor \n4 - Patrimonio");
             opc = Integer.parseInt(l.entDados("\nO que voce gostaria de alterar?"));
             switch (opc) {
                 case 1:
@@ -198,16 +250,12 @@ public class Menu {
                     System.out.println("\n---------------------------------------------\n");
                     break;
                     
-                case 5:
-                    i.setDataNasc(l.entDados("\nDigite a nova data de nascimento: "));
-                    System.out.println("\n---------------------------------------------\n");
-                    break;
 
                 default:
                     System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
                     break;
             }
-        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5);
+        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4);
         
     }
 
@@ -226,10 +274,10 @@ public class Menu {
                     menuRF();
                     break;
                 case 2:
-                    // menuRV();
+                    menuRV();
                     break;
                 case 3:
-                    // menuCM();
+                    menuCM();
                     break;
                 case 0:
                     System.out.println("\n---------------------------------------------\n");
@@ -247,7 +295,6 @@ public class Menu {
     public void menuRF() {
         System.out.println("\n---------------------------------------------\n");
         System.out.println("OPCAO ESCOLHIDA: 1 - RENDA FIXA\n");
-        // qtd = ControleRendaFixa rendaFixaList.size(); - Descobrir porquê não funciona
         
         do {
             // System.out.println("Você tem " + qtd + " investimento(s) cadastrado(s).\n");
@@ -255,7 +302,7 @@ public class Menu {
             System.out.println("2 - Listar investimentos");
             System.out.println("3 - Consultar investimento");
             System.out.println("4 - Editar investimento");
-            System.out.println("5 - Remover investimento");
+            System.out.println("5 - Remover investimentos");
             opc = Integer.parseInt(l.entDados("0 - Retornar"));
 
             switch (opc) {
@@ -272,7 +319,7 @@ public class Menu {
                         rf1.setRisco(l.entDados("\nDigite o risco da sua aplicação (ex.: Baixo, Medio, Alto): "));
                         controleRF.adicionarRendaFixa(rf1);
                         System.out.println("\nRenda Fixa inserida com sucesso!");
-                        } while (l.entDados("Gostaria de inserir uma nova Renda Fixa? (S/N)").equalsIgnoreCase("s"));
+                        } while (l.entDados("\nGostaria de inserir uma nova Renda Fixa? (S/N)").equalsIgnoreCase("s"));
                         menuRF();                 
                     break;
                 case 2:
@@ -299,7 +346,7 @@ public class Menu {
                     break;
                 case 5:
                     System.out.println("\n---------------------------------------------\n");
-                    System.out.println("OPCAO ESCOLHIDA: 5 - REMOVER INVESTIMENTO");
+                    System.out.println("OPCAO ESCOLHIDA: 5 - REMOVER INVESTIMENTOS");
                     controleRF.listarRendaFixa();
 					controleRF.excluirRendaFixa(Integer.parseInt(l.entDados("\nDigite o ID do ativo a ser removido: ")));
                     menuRF();
@@ -317,24 +364,157 @@ public class Menu {
         } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 0);
     }
 
+    public void menuRV() {
+        System.out.println("\n---------------------------------------------\n");
+        System.out.println("OPCAO ESCOLHIDA: 2 - RENDA VARIAVEL\n");
+        // qtd = ControleRendaFixa rendaFixaList.size(); - Descobrir porquê não funciona
+        
+        do {
+            // System.out.println("Você tem " + qtd + " investimento(s) cadastrado(s).\n");
+            System.out.println("1 - Cadastrar novo investimento");
+            System.out.println("2 - Listar investimentos");
+            System.out.println("3 - Consultar investimento");
+            System.out.println("4 - Editar investimento");
+            System.out.println("5 - Remover investimentos");
+            opc = Integer.parseInt(l.entDados("0 - Retornar"));
 
-
-    /*
-    public void controleRF () {
-        List<RendaFixa> list = new ArrayList<>();
-        RendaFixa rf = new RendaFixa();
-        rf.setTipo(opc);
-        rf.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao (ex.: R$ 1.100,50, digite 1100.5): ")));
-        rf.setLiqui(l.entDados("\nDigite a liquidez do seu ativo: "));
-        rf.setRentAnual(Integer.parseInt(l.entDados("\nDigite a rentabilidade anual (ex.: se a rentabilidade for 12.5%, digite apenas 12): ")));
-        rf.setTitulo(l.entDados("\nDigite o título da sua aplicacao (CDB, Tesouro direto, LCI etc.): "));
-        rf.setGarantia(l.entDados("\nDigite a garantia da sua aplicacao (FGC, Tesouro Nacional, sem garantia): "));
-        rf.setRisco(l.entDados("\nDigite o título da sua aplicacao (CDB, Tesouro direto, LCI etc.): "));
-        list.add(rf);
-
+            switch (opc) {
+                case 1:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 1 - CADASTRAR NOVO INVESTIMENTO\n");
+                    do {
+                        RendaVariavel rv1 = new RendaVariavel();
+                        rv1.setCodigo(l.entDados("Digite o codigo da sua aplicacao (ex.: VALE3, PETR4, MXRF11 etc.): "));
+                        rv1.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao (ex.: R$ 1.100,50, digite 1100.5): ")));
+                        rv1.setRentAnual(Integer.parseInt(l.entDados("\nDigite a rentabilidade anual (ex.: se a rentabilidade for 12.5%, digite apenas 12): ")));
+                        rv1.setLiqui(l.entDados("\nDigite a liquidez do seu ativo (ex.: Diaria, 3 meses, 6 meses, 1 ano): "));
+                        rv1.setPvp(Double.parseDouble(l.entDados("\nDigite o P/PV do seu ativo (ex.: se 1,05 digite 1.05): ")));
+                        rv1.setUltRend(Double.parseDouble((l.entDados("\nDigite o valor do seu ultimo rendimento mensal (ex.: se R$10,01 digite 10.01): "))));
+                        rv1.setQtdCotas(Integer.parseInt(l.entDados("\nDigite a quantidade de cotas adquiridas (ex.: 2 cotas digite 2): ")));
+                        controleRV.adicionarRendaVariavel(rv1);
+                        System.out.println("\nRenda Variavel inserida com sucesso!");
+                        } while (l.entDados("\nGostaria de inserir uma nova Renda Variavel? (S/N)").equalsIgnoreCase("s"));
+                        menuRV();                 
+                    break;
+                case 2:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 2 - LISTAR INVESTIMENTOS\n");
+                    controleRV.listarRendaVariavel();
+                    menuRV();
+                    break;  
+                case 3:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 3 - CONSULTAR INVESTIMENTO\n");
+                    controleRV.consultarRendaVariavel(Integer.parseInt(l.entDados("Digite o ID do ativo: "))); 
+                    menuRV();                   
+                    break;
+                case 4:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 4 - EDITAR INVESTIMENTO\n");
+                    controleRV.listarRendaVariavel();
+                    controleRV.editarRendaVariavel(
+                        Integer.parseInt(l.entDados("\nDigite o ID da Renda Variavel a ser alterada: ")),
+                        Double.parseDouble(l.entDados("\nDigite o novo valor (ex.: R$ 1.100,50, digite 1100.5): "))
+                        );
+                    menuRV();    
+                    break;
+                case 5:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 5 - REMOVER INVESTIMENTOS");
+                    controleRV.listarRendaVariavel();
+					controleRV.excluirRendaVariavel(Integer.parseInt(l.entDados("\nDigite o ID do ativo a ser removido: ")));
+                    menuRV();
+                    break;
+                case 0:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 0 - RETORNAR");
+                    menuInvestimentos();
+                    break;
+                default:
+                    System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
+                    break;
+            }
+            
+        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 0);
     }
-    
-    */
+
+    public void menuCM() {
+        System.out.println("\n---------------------------------------------\n");
+        System.out.println("OPCAO ESCOLHIDA: 3 - CRIPTOMOEDAS\n");
+        // qtd = ControleRendaFixa rendaFixaList.size(); - Descobrir porquê não funciona
+        
+        do {
+            // System.out.println("Você tem " + qtd + " investimento(s) cadastrado(s).\n");
+            System.out.println("1 - Cadastrar novo investimento");
+            System.out.println("2 - Listar investimentos");
+            System.out.println("3 - Consultar investimento");
+            System.out.println("4 - Editar investimento");
+            System.out.println("5 - Remover investimentos");
+            opc = Integer.parseInt(l.entDados("0 - Retornar"));
+
+            switch (opc) {
+                case 1:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 1 - CADASTRAR NOVO INVESTIMENTO\n");
+                    do {
+                        Criptomoedas cm1 = new Criptomoedas();
+                        cm1.setNomeC(l.entDados("Digite o nome do seu criptoativo (ex.: Bitcoin, Ethereum etc.): "));
+                        cm1.setValor(Double.parseDouble(l.entDados("\nDigite o valor da sua aplicacao (ex.: R$ 1.100,50, digite 1100.5): ")));
+                        cm1.setRentAnual(Integer.parseInt(l.entDados("\nDigite a rentabilidade anual (ex.: se a rentabilidade for 12.5%, digite apenas 12): ")));
+                        cm1.setLiqui(l.entDados("\nDigite a liquidez do seu ativo (ex.: Diaria, 3 meses, 6 meses, 1 ano): "));
+                        cm1.setTicker(l.entDados("\nDigite o ticker do seu ativo (ex.: BTC, ETH e etc.): "));
+                        cm1.setValorAtual(Double.parseDouble(l.entDados("\nDigite o valor atual de 1 (UM) " + cm1.getNomeC() + " (ex.: Bitcoin - 179000): ")));
+                        controleCM.adicionarCriptomoedas(cm1);
+                        System.out.println("\nCriptomoeda inserida com sucesso!");
+                        } while (l.entDados("\nGostaria de inserir uma nova Criptomoeda? (S/N)").equalsIgnoreCase("s"));
+                        menuCM();                 
+                    break;
+                case 2:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 2 - LISTAR INVESTIMENTOS\n");
+                    controleCM.listarCriptomoedas();
+                    menuCM();
+                    break;  
+                case 3:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 3 - CONSULTAR INVESTIMENTO\n");
+                    controleCM.consultarCriptomoedas(Integer.parseInt(l.entDados("Digite o ID do ativo: "))); 
+                    menuCM();                   
+                    break;
+                case 4:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 4 - EDITAR INVESTIMENTO\n");
+                    controleCM.listarCriptomoedas();
+                    controleCM.editarCriptomoedas(
+                        Integer.parseInt(l.entDados("\nDigite o ID da Renda Fixa a ser alterada: ")),
+                        Double.parseDouble(l.entDados("\nDigite o novo valor (ex.: R$ 1.100,50, digite 1100.5): "))
+                        );
+                    menuCM();    
+                    break;
+                case 5:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 5 - REMOVER INVESTIMENTOS");
+                    controleCM.listarCriptomoedas();
+					controleCM.excluirCriptomoedas(Integer.parseInt(l.entDados("\nDigite o ID do ativo a ser removido: ")));
+                    menuCM();
+                    break;
+                case 0:
+                    System.out.println("\n---------------------------------------------\n");
+                    System.out.println("OPCAO ESCOLHIDA: 0 - RETORNAR");
+                    menuInvestimentos();
+                    break;
+                default:
+                    System.out.println("\nOPCAO INVALIDA! Tente novamente.\n");
+                    break;
+            }
+            
+        } while (!sair && opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 0);
+    }
+
+    public boolean isMaiorDeIdade(LocalDate dataNascimento) {
+        LocalDate hoje = LocalDate.now();
+        return dataNascimento.plusYears(18).isBefore(hoje);
+    }
 
 }
 

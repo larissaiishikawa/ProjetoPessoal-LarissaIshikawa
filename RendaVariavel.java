@@ -12,7 +12,6 @@ public class RendaVariavel extends Investimento implements Calc {
 	// Polimorfismo por sobrecarga - Construtor
 	public RendaVariavel() {
 	
-		super();
 		codigo = "";
 		pvp = 0.0;
 		ultRend = 0.0;
