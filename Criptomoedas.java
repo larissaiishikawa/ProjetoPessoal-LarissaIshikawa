@@ -19,6 +19,16 @@ public class Criptomoedas extends Investimento implements Calc {
         valorAtual = 0.0;
         id = 0;
     }
+	
+/*	ADICIONAR SOBRECARGA EM TODOS!
+
+	public Criptomoedas(String nomeC, String ticker, double valorAtual, int id) {
+ 		this.nomeC= nomeC;
+   		this.ticker = ticker;
+     		this.valorAtual = valorAtual;
+ 		this.id = id;
+  	}
+*/
 
     // Getter
     public String getNomeC() {
